@@ -1,0 +1,19 @@
+GET http://localhost:3000/people
+
+
+# POST http://localhost:3000/people
+# content-type: application/json
+
+# {
+#     "nome": "sample"
+# }
+
+
+# PUT http://localhost:3000/people/1
+# content-type: application/json
+
+# {
+#     "nome": "sample3"
+# }
+
+#DELETE http://localhost:3000/people/1
