@@ -30,7 +30,10 @@ services:
       - desafionet
 
   frontend:
-    dockerfile: frontend/Dockerfile
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+    image: frontend
     container_name: frontend
     ports:
       - 80:80
