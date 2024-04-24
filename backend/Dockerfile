@@ -10,5 +10,5 @@ RUN     npm i -g @nestjs/cli npm && \
 FROM    node:lts-alpine3.19     
 WORKDIR /app
 COPY    --from=builder /tmp/app/dist .
-COPY    --from=builder /tmp/node_modules .
+COPY    --from=builder /tmp/app/node_modules .
 ENTRYPOINT [ "node", "main.js" ]
