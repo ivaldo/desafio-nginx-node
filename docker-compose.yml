@@ -5,11 +5,9 @@ networks:
     driver: bridge
 
 services:
-  mysql:
+  database:
     image: mysql:5.7
-    container_name: mysql
-    ports:
-      - "3306:3306"
+    container_name: database
     environment:
       - "MYSQL_ROOT_PASSWORD=root"
       - "MYSQL_DATABASE=appdb"
@@ -18,3 +16,24 @@ services:
     tty: true
     networks:
       - desafionet
+
+  backend:
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    image: backend
+    container_name: backend
+    environment:
+      - DATABASE_URL=mysql://appuser:apppass@database:3306/appdb
+    tty: true
+    networks:
+      - desafionet
+
+  frontend:
+    dockerfile: frontend/Dockerfile
+    container_name: frontend
+    ports:
+      - 80:80
+    tty: true
+    networks:
+      - desafionet    
