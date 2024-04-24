@@ -9,6 +9,6 @@ FROM       nginx:1.25.5-alpine
 WORKDIR    /usr/share/nginx/html
 RUN        rm /etc/nginx/conf.d/default.conf
 COPY       nginx.conf /etc/nginx/conf.d
-COPY       --from=builder /tmp/app/frontend/browser .
+COPY       --from=builder /tmp/app/dist/frontend/browser .
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 CMD        ["nginx", "-g", "daemon off;"]
