@@ -1,0 +1,14 @@
+{
+  "name": "desafio-nginx-node",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql": "^2.18.1"
+  }
+}

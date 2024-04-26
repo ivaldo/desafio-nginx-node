@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  database:
+  mysql:
     image: mysql:5.7
     container_name: database
     environment:
@@ -17,26 +17,33 @@ services:
     networks:
       - desafionet
 
-  backend:
+  node:
     build: 
-      context: backend
-      dockerfile: Dockerfile
-    image: backend
-    container_name: backend
+      context: ./
+      dockerfile: Dockerfile-node
+    image: node
+    container_name: node
     environment:
-      - DATABASE_URL=mysql://appuser:apppass@database:3306/appdb
+      - db_host=mysql
+      - db_name=appdb
+      - db_user=root
+      - db_pass=root
     tty: true
+    depends_on:
+      - mysql
+    restart: on-failure
     networks:
       - desafionet
 
-  frontend:
+  nginx:
     build: 
-      context: frontend
-      dockerfile: Dockerfile
-    image: frontend
-    container_name: frontend
+      context: ./
+      dockerfile: Dockerfile-nginx
+    image: nginx
+    container_name: nginx
     ports:
-      - 80:80
+      - 8080:80
     tty: true
+    restart: on-failure
     networks:
-      - desafionet    
+      - desafionet
