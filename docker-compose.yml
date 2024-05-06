@@ -4,9 +4,17 @@ networks:
   desafionet:
     driver: bridge
 
+volumes:
+  mysql_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: mysql
+      o: bind
+
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql:5.7.16
     container_name: database
     environment:
       - "MYSQL_ROOT_PASSWORD=root"
@@ -14,6 +22,8 @@ services:
       - "MYSQL_USER=appuser"
       - "MYSQL_PASSWORD=apppass"
     tty: true
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       - desafionet
 
@@ -32,6 +42,8 @@ services:
     depends_on:
       - mysql
     restart: on-failure
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s
+    command: node index.js
     networks:
       - desafionet
 
@@ -44,6 +56,10 @@ services:
     ports:
       - 8080:80
     tty: true
+    depends_on:
+      - node
+    entrypoint: dockerize -wait tcp://node:3000 -timeout 20s
+    command: nginx -g 'daemon off;'
     restart: on-failure
     networks:
       - desafionet
