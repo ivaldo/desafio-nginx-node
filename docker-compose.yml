@@ -11,6 +11,12 @@ volumes:
       type: none
       device: mysql
       o: bind
+  node_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: node
+      o: bind
 
 services:
   mysql:
@@ -29,8 +35,8 @@ services:
 
   node:
     build: 
-      context: ./
-      dockerfile: Dockerfile-node
+      context: node
+      dockerfile: Dockerfile
     image: node
     container_name: node
     environment:
@@ -41,16 +47,19 @@ services:
     tty: true
     depends_on:
       - mysql
-    restart: on-failure
     entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s
-    command: node index.js
+    volumes:
+      - node_data:/app
+    command: >
+      sh -c "/usr/local/bin/npm install --quiet &&
+             /usr/local/bin/node index.js"
     networks:
       - desafionet
 
   nginx:
     build: 
-      context: ./
-      dockerfile: Dockerfile-nginx
+      context: nginx
+      dockerfile: Dockerfile
     image: nginx
     container_name: nginx
     ports:

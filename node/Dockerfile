@@ -1,8 +1,5 @@
 FROM    node:lts-alpine3.19
 WORKDIR /app
-COPY    index.js .
-COPY    *.json .
-RUN     npm i
 
 ENV DOCKERIZE_VERSION v0.7.0
 
