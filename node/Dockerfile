@@ -8,4 +8,4 @@ RUN apk update --no-cache \
     && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
     && apk del wget
 
-ENTRYPOINT [ "dockerize","-wait","tcp://mysql:3306","-timeout","20s" ]
+ENTRYPOINT [ "/usr/local/bin/dockerize","-wait","tcp://mysql:3306","-timeout","20s" ]

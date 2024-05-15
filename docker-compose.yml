@@ -45,7 +45,6 @@ services:
     tty: true
     depends_on:
       - mysql
-    entrypoint: /usr/local/bin/dockerize -wait tcp://mysql:3306 -timeout 20s
     volumes:
       - node_data:/app
     command: >
@@ -65,7 +64,6 @@ services:
     tty: true
     depends_on:
       - node
-    entrypoint: /usr/local/bin/dockerize -wait tcp://node:3000 -timeout 20s
     command: nginx -g 'daemon off;'
     restart: on-failure
     networks:

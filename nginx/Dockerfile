@@ -8,3 +8,5 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     touch /usr/share/nginx/html/index.html && \
     rm -rf /etc/nginx/conf.d/default.conf
+
+ENTRYPOINT [ "/usr/local/bin/dockerize","-wait","tcp://node:3000","-timeout","40s" ]
